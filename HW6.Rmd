@@ -1,0 +1,42 @@
+---
+title: "HW6"
+author: "Jeremy Jarzab"
+date: "4/6/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+#HW6, Jeremy Jarzab, CSC302
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+
+#2
+load("D:/Users/Jeremy/Desktop/Online_Assignments/Winter 2022/CSC 302/house_prices.rda")
+head(house_prices)
+
+ggplot(data=house_prices, aes(x=date, y=house_price_index)) +
+  geom_line() +
+  facet_wrap(~state) +
+  scale_x_date(limits = as.Date(c("1980-01-01", "2020-01-01")), 
+               breaks=as.Date(c("1980-01-01", "2000-01-01", "2020-01-01")), 
+               labels=c("'80", "'00", "'20"))
+
+house_prices %>% gather(measure, value, -date, -state, -house_price_perc)->house_reshaped
+ggplot(data=house_reshaped, aes(x=date, y=value), color=measure) + 
+  geom_path() + 
+  facet_wrap(~state) + 
+  scale_x_date(limits = as.Date(c("1980-01-01", "2020-01-01")), 
+               breaks=as.Date(c("1980-01-01", "2000-01-01", "2020-01-01")), 
+               labels=c("'80", "'00", "'20"))
+```
